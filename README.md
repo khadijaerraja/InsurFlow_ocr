@@ -34,16 +34,6 @@ Answers include source passages and page references. If the documents do not con
 
 > Portfolio project tested on synthetic documents. Not intended for real customer data or production use.
 
-## Application Preview
-
-| Sign in | Document Management |
-|:---:|:---:|
-| ![Sign in](docs/screenshots/01-sign-in.png) | ![Documents](docs/screenshots/02-documents.png) |
-
-**Question Answering**
-
-![Chat interface](docs/screenshots/03-chat.png)
-
 ## Technology Stack
 
 | Layer | Technologies |
