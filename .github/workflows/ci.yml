@@ -1,0 +1,30 @@
+name: CI
+
+# Tests run fully offline with no API key: ScriptedLLM stands in for the LLM,
+# and the retrieval/chunking/vector-store tests use hand-built vectors rather
+# than the sentence-transformers model, so no model download or network
+# access is needed here. The real retrieval eval (src/run_eval.py), which
+# does load sentence-transformers and needs the ~90MB model, is run manually
+# and its output is reported in the README rather than re-verified on every
+# push -- adding it to CI would mean either caching a model download or
+# accepting flaky network-dependent runs, neither of which this workflow
+# does.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install lightweight test dependencies
+        run: pip install numpy pyyaml pytest ruff
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest -v

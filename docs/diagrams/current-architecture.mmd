@@ -1,0 +1,97 @@
+flowchart LR
+    subgraph sources["01 · DATA SOURCES"]
+        direction TB
+        policies["▤ Synthetic Markdown policies<br/>20 generated files · IMPLEMENTED"]
+        pdfs["▤ Insurance PDFs<br/>PLANNED"]
+        queries["⌕ User question<br/>Function input · IMPLEMENTED"]
+    end
+
+    subgraph intake["02 · DOCUMENT INTAKE"]
+        direction TB
+        generator["⚙ generate_documents.py<br/>Synthetic corpus generator"]
+        upload["⇧ Upload and PDF extraction<br/>PLANNED"]
+        ocr["◉ OCR for scanned pages<br/>PLANNED"]
+    end
+
+    subgraph processing["03 · PROCESSING"]
+        direction TB
+        chunk["▥ Fixed / section-aware chunking<br/>IMPLEMENTED"]
+        cleaning["✳ Cleaning and normalization<br/>PLANNED"]
+        extraction["⌑ Structured metadata extraction<br/>PLANNED"]
+        validation["✓ Data validation<br/>PLANNED"]
+    end
+
+    subgraph storage["04 · STORAGE"]
+        direction TB
+        files["▤ Markdown files on disk<br/>IMPLEMENTED"]
+        vectors["◈ In-memory NumPy vectors<br/>IMPLEMENTED"]
+        database["▦ Relational database<br/>PLANNED"]
+        index["◈ Persistent vector index<br/>PLANNED"]
+    end
+
+    subgraph ai["05 · RETRIEVAL & AI"]
+        direction TB
+        embed["◈ Local sentence embeddings<br/>IMPLEMENTED"]
+        dense["⌕ Dense cosine retrieval<br/>IMPLEMENTED"]
+        bm25["⌕ BM25 keyword search<br/>PLANNED"]
+        hybrid["⇄ Hybrid search / reranking<br/>PLANNED"]
+        context["≡ Context construction<br/>IMPLEMENTED"]
+        gate["✓ Score-threshold refusal gate<br/>IMPLEMENTED"]
+        refusal["↩ Fixed refusal<br/>IMPLEMENTED"]
+        scripted["✧ ScriptedLLM demo client<br/>IMPLEMENTED"]
+        providers["☁ OpenAI / Gemini clients<br/>OPTIONAL · EXTERNAL APIs"]
+        citations["↗ Document / chunk / section citations<br/>IMPLEMENTED"]
+    end
+
+    subgraph application["06 · APPLICATION"]
+        direction TB
+        python["⌘ Python modules and evaluation CLI<br/>IMPLEMENTED"]
+        api["⇄ FastAPI backend<br/>PLANNED"]
+        frontend["▣ React frontend<br/>PLANNED"]
+    end
+
+    subgraph quality["07 · QUALITY & TRACEABILITY"]
+        direction TB
+        evaluation["⌁ Retrieval evaluation<br/>18-question gold set · IMPLEMENTED"]
+        tests["✓ pytest regression tests<br/>IMPLEMENTED"]
+        logs["≡ Processing logs and audit trail<br/>PLANNED"]
+    end
+
+    generator --> policies
+    policies --> files
+    pdfs -.-> upload
+    upload -.-> ocr
+    ocr -.-> cleaning
+    files --> chunk
+    chunk --> embed
+    embed --> vectors
+    chunk -.-> cleaning
+    cleaning -.-> extraction
+    extraction -.-> validation
+    validation -.-> database
+    validation -.-> index
+    vectors --> dense
+    queries --> dense
+    dense -.-> hybrid
+    bm25 -.-> hybrid
+    dense --> context
+    hybrid -.-> context
+    context --> gate
+    gate -->|below threshold| refusal
+    gate -->|demo generation| scripted
+    gate -.->|optional live generation| providers
+    scripted --> citations
+    providers -.-> citations
+    python --> evaluation
+    dense --> evaluation
+    tests -.-> chunk
+    tests -.-> gate
+    validation -.-> logs
+    frontend -.-> api
+    api -.-> python
+
+    classDef implemented fill:#E7F5F3,stroke:#167D86,color:#17324D,stroke-width:1.5px,rx:6px,ry:6px;
+    classDef planned fill:#F4F6F8,stroke:#8A98A6,color:#44515E,stroke-width:1.2px,stroke-dasharray:5 4,rx:6px,ry:6px;
+    class policies,queries,generator,files,chunk,embed,vectors,dense,context,gate,refusal,scripted,citations,python,evaluation,tests implemented;
+    class pdfs,upload,ocr,cleaning,extraction,validation,database,index,bm25,hybrid,api,frontend,logs planned;
+    class providers fill:#EAF0F8,stroke:#315A7D,color:#17324D,stroke-width:1.5px;

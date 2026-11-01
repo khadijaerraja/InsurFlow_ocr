@@ -1,0 +1,97 @@
+flowchart LR
+    subgraph sources["01 · DATA SOURCES"]
+        direction TB
+        pdf["▤ Insurance PDFs<br/>TARGET"]
+        samples["▤ Synthetic Markdown fixtures<br/>EXISTING"]
+        question["⌕ User questions<br/>TARGET"]
+    end
+
+    subgraph ingestion["02 · INGESTION"]
+        direction TB
+        intake["⇧ Validated local document intake<br/>PLANNED"]
+        extract["▤ Native PDF text extraction<br/>PLANNED"]
+        ocr["◉ OCR fallback for scanned pages<br/>PLANNED"]
+    end
+
+    subgraph processing["03 · PROCESSING"]
+        direction TB
+        normalize["✳ Text cleaning and normalization<br/>PLANNED"]
+        metadata["⌑ Typed metadata extraction<br/>PLANNED"]
+        validate["✓ Schema and quality validation<br/>PLANNED"]
+        provenance["↗ Page and source provenance<br/>PLANNED"]
+    end
+
+    subgraph storage["04 · STORAGE"]
+        direction TB
+        originals["▤ Local original-file storage<br/>PLANNED"]
+        relational["▦ Relational records and versions<br/>PLANNED"]
+        vectorindex["◈ Persisted vector index<br/>PLANNED"]
+    end
+
+    subgraph ai["05 · RETRIEVAL & AI"]
+        direction TB
+        chunking["▥ Chunking and local embeddings<br/>REUSE / ADAPT"]
+        dense["◈ Dense retrieval<br/>REUSE / ADAPT"]
+        lexical["⌕ BM25 lexical retrieval<br/>PLANNED"]
+        hybrid["⇄ Hybrid fusion and measured reranking<br/>PLANNED"]
+        context["≡ Authorized context assembly<br/>PLANNED"]
+        answer["✧ Answer generation<br/>OPTIONAL · LOCAL-FIRST"]
+        abstain["✓ Evidence checks and abstention<br/>REUSE / IMPROVE"]
+        cite["↗ Page-level citations<br/>PLANNED"]
+    end
+
+    subgraph application["06 · APPLICATION"]
+        direction TB
+        react["▣ React interface<br/>PLANNED"]
+        fastapi["⇄ FastAPI application<br/>PLANNED"]
+        access["◇ Authentication and document access<br/>PLANNED"]
+    end
+
+    subgraph quality["07 · QUALITY & TRACEABILITY"]
+        direction TB
+        eval["⌁ Retrieval, extraction, and answer evaluation<br/>EXTEND EXISTING"]
+        tests["✓ Unit and integration tests<br/>EXTEND EXISTING"]
+        audit["≡ Processing runs and access audit<br/>PLANNED"]
+    end
+
+    pdf --> intake
+    samples -.-> chunking
+    intake --> originals
+    intake --> extract
+    extract --> normalize
+    extract -.-> ocr
+    ocr -.-> normalize
+    normalize --> metadata
+    metadata --> validate
+    validate --> provenance
+    provenance --> relational
+    validate --> chunking
+    originals --> relational
+    chunking --> vectorindex
+    vectorindex --> dense
+    question --> fastapi
+    fastapi --> access
+    access --> dense
+    access --> lexical
+    dense --> hybrid
+    lexical --> hybrid
+    hybrid --> context
+    relational --> context
+    context --> abstain
+    abstain --> answer
+    answer --> cite
+    abstain --> cite
+    cite --> fastapi
+    react --> fastapi
+    validate --> audit
+    access --> audit
+    hybrid --> eval
+    provenance --> eval
+    tests -.-> fastapi
+
+    classDef existing fill:#E7F5F3,stroke:#167D86,color:#17324D,stroke-width:1.5px,rx:6px,ry:6px;
+    classDef planned fill:#F4F6F8,stroke:#8A98A6,color:#44515E,stroke-width:1.2px,stroke-dasharray:5 4,rx:6px,ry:6px;
+    classDef optional fill:#EAF0F8,stroke:#315A7D,color:#17324D,stroke-width:1.5px,rx:6px,ry:6px;
+    class samples,chunking,dense,abstain,eval,tests existing;
+    class pdf,question,intake,extract,ocr,normalize,metadata,validate,provenance,originals,relational,vectorindex,lexical,hybrid,context,cite,react,fastapi,access,audit planned;
+    class answer optional;

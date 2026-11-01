@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InsurFlow</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230D8A7C'/%3E%3Cpath fill='%23fff' d='M8 5h5.5L17 8.5V19H8z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="mobilebar"><button id="menu" class="icon-btn" aria-label="Open menu"></button><span class="brand" id="mbrand"></span></header>
+  <button class="icon-btn reopen" id="reopen" aria-label="Open sidebar"></button>
+  <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+    <div class="side-top"><a class="brand" id="brand" href="#/chat"></a><button class="icon-btn" id="collapse" aria-label="Close sidebar"></button></div>
+    <nav class="side-nav" id="nav" aria-label="Main"></nav>
+    <div class="recents" id="recents" aria-label="Recent conversations"></div>
+    <div class="account" id="account"></div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+  <div class="auth" id="auth"></div>
+  <main id="view" tabindex="-1"></main>
+  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

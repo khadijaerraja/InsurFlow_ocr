@@ -1,0 +1,119 @@
+# Gold evaluation set for retrieval quality and hallucination-guard testing.
+#
+# Answerable questions (unanswerable: false) carry the one document that
+# genuinely contains the fact, generated deterministically by
+# src/generate_documents.py. Retrieval scoring checks whether that doc_id
+# appears in the top-k results (hit rate) and at what rank (MRR).
+#
+# Unanswerable questions ask about benefits that do not exist anywhere in the
+# synthetic corpus (flight delay, legal liability, funeral expense are never
+# mentioned in any generated section). These are used by the hallucination
+# -guard test, not by hit-rate/MRR, since there is no correct source to hit.
+
+- id: q01
+  question: "What is the annual claim limit for the Gold Family policy?"
+  expected_doc: gold_family.md
+  expected_section: "Cover Levels"
+  unanswerable: false
+
+- id: q02
+  question: "Is outpatient treatment covered under the Bronze Individual policy?"
+  expected_doc: bronze_individual.md
+  expected_section: "Cover Levels"
+  unanswerable: false
+
+- id: q03
+  question: "What percentage of inpatient costs does the Silver Individual tier cover?"
+  expected_doc: silver_individual.md
+  expected_section: "Cover Levels"
+  unanswerable: false
+
+- id: q04
+  question: "What is the maternity waiting period under a Platinum Senior policy?"
+  expected_doc: platinum_senior.md
+  expected_section: "Waiting Periods"
+  unanswerable: false
+
+- id: q05
+  question: "How many days is the GP waiting period on a Gold Expatriate policy?"
+  expected_doc: gold_expatriate.md
+  expected_section: "Waiting Periods"
+  unanswerable: false
+
+- id: q06
+  question: "What is the specialist consultation waiting period for a Bronze Student policy?"
+  expected_doc: bronze_student.md
+  expected_section: "Waiting Periods"
+  unanswerable: false
+
+- id: q07
+  question: "Within how many days must claims be submitted under a Silver Family policy?"
+  expected_doc: silver_family.md
+  expected_section: "Claims Procedure"
+  unanswerable: false
+
+- id: q08
+  question: "What claims method applies to a Platinum Individual policy?"
+  expected_doc: platinum_individual.md
+  expected_section: "Claims Procedure"
+  unanswerable: false
+
+- id: q09
+  question: "What is the geographic scope of a Gold Student policy?"
+  expected_doc: gold_student.md
+  expected_section: "Geographic Scope"
+  unanswerable: false
+
+- id: q10
+  question: "What is the geographic scope of a Silver Expatriate policy?"
+  expected_doc: silver_expatriate.md
+  expected_section: "Geographic Scope"
+  unanswerable: false
+
+- id: q11
+  question: "What is the geographic scope of a Bronze Senior policy?"
+  expected_doc: bronze_senior.md
+  expected_section: "Geographic Scope"
+  unanswerable: false
+
+- id: q12
+  question: "Up to what age are dependants covered under a Platinum Family policy?"
+  expected_doc: platinum_family.md
+  expected_section: "Additional Terms"
+  unanswerable: false
+
+- id: q13
+  question: "What additional cover is included for a Platinum Expatriate policy beyond medical evacuation?"
+  expected_doc: platinum_expatriate.md
+  expected_section: "Additional Terms"
+  unanswerable: false
+
+- id: q14
+  question: "When does cover end for a Silver Student policy?"
+  expected_doc: silver_student.md
+  expected_section: "Additional Terms"
+  unanswerable: false
+
+- id: q15
+  question: "Are pre-existing conditions covered under a Gold Individual policy?"
+  expected_doc: gold_individual.md
+  expected_section: "Exclusions"
+  unanswerable: false
+
+- id: q16
+  question: "Does any Meridian Global Health policy cover flight delay compensation?"
+  expected_doc: null
+  expected_section: null
+  unanswerable: true
+
+- id: q17
+  question: "Is there cover for third-party legal liability claims under any policy tier?"
+  expected_doc: null
+  expected_section: null
+  unanswerable: true
+
+- id: q18
+  question: "What is the funeral expense benefit amount under the Platinum policy?"
+  expected_doc: null
+  expected_section: null
+  unanswerable: true

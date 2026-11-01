@@ -1,0 +1,511 @@
+[
+  {
+    "holder": "Amina El Idrissi",
+    "policy_number": "INS-001",
+    "product": "Bronze Expatriate",
+    "doc_type": "contract",
+    "reference": "INS-001",
+    "amount": 1800.0,
+    "start_date": "2026-01-05",
+    "end_date": "2027-01-04",
+    "annual_ceiling": 50000.0,
+    "document_date": "2025-12-29",
+    "guarantees": [
+      "Hospitalisation",
+      "General practitioner"
+    ],
+    "guarantee_terms": [
+      [
+        "Hospitalisation",
+        "70% of eligible costs"
+      ],
+      [
+        "General practitioner",
+        "80% of eligible costs"
+      ]
+    ],
+    "exclusions": [
+      "Experimental treatment",
+      "Self-inflicted injury",
+      "War and civil unrest",
+      "Pre-existing conditions (first 12 months)"
+    ],
+    "anomaly": null,
+    "file": "contract_00.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Amina El Idrissi",
+    "policy_number": "INS-001",
+    "product": "Bronze Expatriate",
+    "doc_type": "amendment",
+    "reference": "AVN-001",
+    "amount": 420.0,
+    "start_date": "2026-04-05",
+    "end_date": "2027-01-04",
+    "annual_ceiling": 100000.0,
+    "document_date": "2026-03-31",
+    "anomaly": null,
+    "file": "amendment_01.pdf",
+    "scanned": true
+  },
+  {
+    "holder": "Amina El Idrissi",
+    "policy_number": "INS-001",
+    "product": "Bronze Expatriate",
+    "doc_type": "claim_form",
+    "reference": "SIN-001",
+    "amount": 1390.69,
+    "provider": "Clinique Atlas Marrakech",
+    "care": "Physiotherapy sessions",
+    "document_date": "2026-06-21",
+    "anomaly": null,
+    "file": "claim_form_02.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Amina El Idrissi",
+    "policy_number": "INS-001",
+    "product": "Bronze Expatriate",
+    "doc_type": "invoice",
+    "reference": "FAC-001",
+    "amount": 1390.69,
+    "provider": "Clinique Atlas Marrakech",
+    "care": "Physiotherapy sessions",
+    "document_date": "2026-06-21",
+    "anomaly": null,
+    "file": "invoice_03.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Youssef Benali",
+    "policy_number": "INS-002",
+    "product": "Gold Individual",
+    "doc_type": "contract",
+    "reference": "INS-002",
+    "amount": 5450.0,
+    "start_date": "2026-01-22",
+    "end_date": "2027-01-21",
+    "annual_ceiling": 500000.0,
+    "document_date": "2026-01-15",
+    "guarantees": [
+      "Hospitalisation",
+      "General practitioner",
+      "Outpatient care",
+      "Pharmacy",
+      "Dental care",
+      "Maternity"
+    ],
+    "guarantee_terms": [
+      [
+        "Hospitalisation",
+        "100% of eligible costs"
+      ],
+      [
+        "General practitioner",
+        "100% of eligible costs"
+      ],
+      [
+        "Outpatient care",
+        "up to 5 000 MAD per year"
+      ],
+      [
+        "Pharmacy",
+        "80% of eligible costs"
+      ],
+      [
+        "Dental care",
+        "comprehensive"
+      ],
+      [
+        "Maternity",
+        "after 12 months of cover"
+      ]
+    ],
+    "exclusions": [
+      "Cosmetic surgery",
+      "Experimental treatment",
+      "Alcohol or drug related injury",
+      "Pre-existing conditions (first 12 months)"
+    ],
+    "anomaly": null,
+    "file": "contract_04.pdf",
+    "scanned": true
+  },
+  {
+    "holder": "Youssef Benali",
+    "policy_number": "INS-002",
+    "product": "Gold Individual",
+    "doc_type": "claim_form",
+    "reference": "SIN-002",
+    "amount": 4112.65,
+    "provider": "Clinique Atlas Marrakech",
+    "care": "Hospital stay (2 nights)",
+    "document_date": "2026-06-12",
+    "anomaly": null,
+    "file": "claim_form_05.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Youssef Benali",
+    "policy_number": "INS-002",
+    "product": "Gold Individual",
+    "doc_type": "invoice",
+    "reference": "FAC-002",
+    "amount": 4112.65,
+    "provider": "Clinique Atlas Marrakech",
+    "care": "Hospital stay (2 nights)",
+    "document_date": "2026-06-12",
+    "anomaly": null,
+    "file": "invoice_06.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Salma Tazi",
+    "policy_number": "INS-003",
+    "product": "Platinum Student",
+    "doc_type": "contract",
+    "reference": "INS-003",
+    "amount": 8700.0,
+    "start_date": "2026-02-08",
+    "end_date": "2027-02-07",
+    "annual_ceiling": 1000000.0,
+    "document_date": "2026-02-01",
+    "guarantees": [
+      "Hospitalisation",
+      "General practitioner",
+      "Outpatient care",
+      "Pharmacy",
+      "Dental care",
+      "Maternity",
+      "Optical care"
+    ],
+    "guarantee_terms": [
+      [
+        "Hospitalisation",
+        "100% of eligible costs"
+      ],
+      [
+        "General practitioner",
+        "100% of eligible costs"
+      ],
+      [
+        "Outpatient care",
+        "up to 10 000 MAD per year"
+      ],
+      [
+        "Pharmacy",
+        "100% of eligible costs"
+      ],
+      [
+        "Dental care",
+        "comprehensive"
+      ],
+      [
+        "Maternity",
+        "after 6 months of cover"
+      ],
+      [
+        "Optical care",
+        "up to 2 500 MAD per year"
+      ]
+    ],
+    "exclusions": [
+      "Cosmetic surgery",
+      "War and civil unrest",
+      "Alcohol or drug related injury",
+      "Pre-existing conditions (first 12 months)"
+    ],
+    "anomaly": null,
+    "file": "contract_07.pdf",
+    "scanned": true
+  },
+  {
+    "holder": "Salma Tazi",
+    "policy_number": "INS-003",
+    "product": "Platinum Student",
+    "doc_type": "amendment",
+    "reference": "AVN-003",
+    "amount": 420.0,
+    "start_date": "2026-05-09",
+    "end_date": "2027-02-07",
+    "annual_ceiling": 1050000.0,
+    "document_date": "2026-05-04",
+    "anomaly": null,
+    "file": "amendment_08.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Salma Tazi",
+    "policy_number": "INS-003",
+    "product": "Platinum Student",
+    "doc_type": "claim_form",
+    "reference": "SIN-003",
+    "amount": 5870.44,
+    "provider": "Polyclinique du Sud",
+    "care": "Specialist consultation",
+    "document_date": "2026-08-18",
+    "anomaly": null,
+    "file": "claim_form_09.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Salma Tazi",
+    "policy_number": "INS-003",
+    "product": "Platinum Student",
+    "doc_type": "invoice",
+    "reference": "FAC-003",
+    "amount": 5870.44,
+    "provider": "Polyclinique du Sud",
+    "care": "Specialist consultation",
+    "document_date": "2026-08-18",
+    "anomaly": null,
+    "file": "invoice_10.pdf",
+    "scanned": true
+  },
+  {
+    "holder": "Omar Alaoui",
+    "policy_number": "INS-004",
+    "product": "Bronze Family",
+    "doc_type": "contract",
+    "reference": "INS-004",
+    "amount": 1950.0,
+    "start_date": "2026-02-25",
+    "end_date": "2027-02-24",
+    "annual_ceiling": 50000.0,
+    "document_date": "2026-02-18",
+    "guarantees": [
+      "Hospitalisation",
+      "General practitioner"
+    ],
+    "guarantee_terms": [
+      [
+        "Hospitalisation",
+        "70% of eligible costs"
+      ],
+      [
+        "General practitioner",
+        "80% of eligible costs"
+      ]
+    ],
+    "exclusions": [
+      "Cosmetic surgery",
+      "War and civil unrest",
+      "Alcohol or drug related injury",
+      "Pre-existing conditions (first 12 months)"
+    ],
+    "anomaly": null,
+    "file": "contract_11.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Omar Alaoui",
+    "policy_number": "INS-004",
+    "product": "Bronze Family",
+    "doc_type": "claim_form",
+    "reference": "SIN-004",
+    "amount": 5275.99,
+    "provider": "Polyclinique du Sud",
+    "care": "Hospital stay (2 nights)",
+    "document_date": "2026-02-07",
+    "anomaly": "outside_period",
+    "file": "claim_form_12.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Omar Alaoui",
+    "policy_number": "INS-004",
+    "product": "Bronze Family",
+    "doc_type": "invoice",
+    "reference": "FAC-004",
+    "amount": 5275.99,
+    "provider": "Polyclinique du Sud",
+    "care": "Hospital stay (2 nights)",
+    "document_date": "2026-02-07",
+    "anomaly": "outside_period",
+    "file": "invoice_13.pdf",
+    "scanned": true
+  },
+  {
+    "holder": "Nadia Berrada",
+    "policy_number": "INS-005",
+    "product": "Gold Senior",
+    "doc_type": "contract",
+    "reference": "INS-005",
+    "amount": 5600.0,
+    "start_date": "2026-03-14",
+    "end_date": "2027-03-13",
+    "annual_ceiling": 500000.0,
+    "document_date": "2026-03-07",
+    "guarantees": [
+      "Hospitalisation",
+      "General practitioner",
+      "Outpatient care",
+      "Pharmacy",
+      "Dental care",
+      "Maternity"
+    ],
+    "guarantee_terms": [
+      [
+        "Hospitalisation",
+        "100% of eligible costs"
+      ],
+      [
+        "General practitioner",
+        "100% of eligible costs"
+      ],
+      [
+        "Outpatient care",
+        "up to 5 000 MAD per year"
+      ],
+      [
+        "Pharmacy",
+        "80% of eligible costs"
+      ],
+      [
+        "Dental care",
+        "comprehensive"
+      ],
+      [
+        "Maternity",
+        "after 12 months of cover"
+      ]
+    ],
+    "exclusions": [
+      "Experimental treatment",
+      "Self-inflicted injury",
+      "War and civil unrest",
+      "Pre-existing conditions (first 12 months)"
+    ],
+    "anomaly": null,
+    "file": "contract_14.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Nadia Berrada",
+    "policy_number": "INS-005",
+    "product": "Gold Senior",
+    "doc_type": "claim_form",
+    "reference": "SIN-005",
+    "amount": 3191.25,
+    "provider": "Clinique Atlas Marrakech",
+    "care": "Hospital stay (2 nights)",
+    "document_date": "2026-09-06",
+    "anomaly": null,
+    "file": "claim_form_15.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Nadia Berrada",
+    "policy_number": "INS-005",
+    "product": "Gold Senior",
+    "doc_type": "invoice",
+    "reference": "FAC-005",
+    "amount": 3191.25,
+    "provider": "Clinique Atlas Marrakech",
+    "care": "Hospital stay (2 nights)",
+    "document_date": "2026-09-06",
+    "anomaly": null,
+    "file": "invoice_16.pdf",
+    "scanned": true
+  },
+  {
+    "holder": "Hamza Chraibi",
+    "policy_number": "INS-099",
+    "product": "Unknown",
+    "doc_type": "claim_form",
+    "reference": "SIN-006",
+    "amount": 2350.0,
+    "provider": "Polyclinique du Sud",
+    "care": "Specialist consultation",
+    "document_date": "2026-05-12",
+    "anomaly": "unknown_contract",
+    "file": "claim_form_17.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Karim Fassi",
+    "policy_number": "INS-006",
+    "product": "Gold Individual",
+    "locale": "fr",
+    "anomaly": null,
+    "doc_type": "contract",
+    "reference": "INS-006",
+    "amount": 5500.0,
+    "start_date": "2026-03-02",
+    "end_date": "2027-03-01",
+    "annual_ceiling": 500000.0,
+    "document_date": "2026-02-21",
+    "guarantees": [
+      "Hospitalisation",
+      "General practitioner",
+      "Outpatient care",
+      "Pharmacy",
+      "Dental care",
+      "Maternity"
+    ],
+    "guarantee_terms": [
+      [
+        "Hospitalisation",
+        "100% of eligible costs"
+      ],
+      [
+        "General practitioner",
+        "100% of eligible costs"
+      ],
+      [
+        "Outpatient care",
+        "up to 5 000 MAD per year"
+      ],
+      [
+        "Pharmacy",
+        "80% of eligible costs"
+      ],
+      [
+        "Dental care",
+        "comprehensive"
+      ],
+      [
+        "Maternity",
+        "after 12 months of cover"
+      ]
+    ],
+    "exclusions": [
+      "Cosmetic surgery",
+      "Alcohol or drug related injury",
+      "Pre-existing conditions (first 12 months)"
+    ],
+    "file": "contract_18.pdf",
+    "scanned": false
+  },
+  {
+    "holder": "Karim Fassi",
+    "policy_number": "INS-006",
+    "product": "Gold Individual",
+    "locale": "fr",
+    "anomaly": null,
+    "doc_type": "claim_form",
+    "reference": "SIN-007",
+    "amount": 1840.5,
+    "provider": "Hopital Al Madina",
+    "care": "Séances de kinésithérapie",
+    "document_date": "2026-07-09",
+    "file": "claim_form_19.pdf",
+    "scanned": true
+  },
+  {
+    "holder": "Karim Fassi",
+    "policy_number": "INS-006",
+    "product": "Gold Individual",
+    "locale": "fr",
+    "anomaly": null,
+    "doc_type": "invoice",
+    "reference": "FAC-007",
+    "amount": 1840.5,
+    "provider": "Hopital Al Madina",
+    "care": "Séances de kinésithérapie",
+    "document_date": "2026-07-09",
+    "file": "invoice_20.pdf",
+    "scanned": false
+  }
+]

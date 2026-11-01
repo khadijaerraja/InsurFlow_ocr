@@ -1,0 +1,23 @@
+sequenceDiagram
+    autonumber
+    actor User
+    participant QA as src/qa.py
+    participant Embed as Local sentence embedder
+    participant Store as In-memory VectorStore
+    participant Client as LLMClient
+
+    User->>QA: Ask a question
+    QA->>Embed: Encode question
+    Embed-->>QA: Query vector
+    QA->>Store: Search top-k by cosine similarity
+    Store-->>QA: Ranked chunks with scores
+    alt No chunks or best score below threshold
+        QA-->>User: Fixed refusal; no generation call
+    else Result meets threshold
+        QA->>QA: Build prompt from retrieved chunk text
+        QA->>Client: generate(prompt)
+        Note over Client: ScriptedLLM in demo/tests;<br/>OpenAI and Gemini adapters are optional
+        Client-->>QA: Answer text
+        QA->>QA: Attach retrieved document, chunk, and section metadata
+        QA-->>User: AnswerResult with answer and citations
+    end

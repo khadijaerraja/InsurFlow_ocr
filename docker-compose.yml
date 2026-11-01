@@ -1,0 +1,29 @@
+# PostgreSQL 15 with the pgvector extension: the single data store of InsurFlow
+# (documents, passages, embeddings, full-text index, conversations, memories, users).
+#
+#   docker compose up -d        start (data is kept in the named volume `pgdata`)
+#   docker compose down         stop (add -v to also delete the data)
+#
+# Credentials come from .env (never committed): POSTGRES_PASSWORD is required.
+services:
+  postgres:
+    image: ${PGVECTOR_IMAGE:-pgvector/pgvector:pg15}
+    container_name: insurflow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-insurflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-insurflow}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"   # reachable from this machine only
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-insurflow} -d ${POSTGRES_DB:-insurflow}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    command: ["postgres", "-c", "shared_buffers=128MB", "-c", "max_connections=50"]
+
+volumes:
+  pgdata:
