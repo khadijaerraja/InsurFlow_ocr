@@ -149,19 +149,6 @@ Open **http://127.0.0.1:8000**, sign in, navigate to **Documents**, and select *
 
 The sample dataset contains 21 synthetic documents in English and French, including 7 scanned documents. Initial processing takes approximately 40 seconds.
 
-### Try It Out
-
-Ask the following questions:
-
-**English**
-- What is the expiry date of contract INS-001?
-- And its annual ceiling?
-- What is the capital of France?
-
-**French**
-- Quelle est la date d'échéance du contrat INS-006 ?
-
-The last question about France should be refused because the answer is not contained in the uploaded documents.
 
 ### SQLite Fallback
 
