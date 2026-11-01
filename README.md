@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/Python-3.11+-blue?logo=python" alt="Python" />
   <img src="https://img.shields.io/badge/Flask-Web%20App-black?logo=flask" alt="Flask" />
   <img src="https://img.shields.io/badge/PostgreSQL-pgvector-4169E1?logo=postgresql" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/Tests-131%20passing-brightgreen" alt="Tests" />
+  <img src="https://img.shields.io/badge/Tests-132%20passing-brightgreen" alt="Tests" />
   <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT License" />
 </p>
 
@@ -198,7 +198,18 @@ The retrieval and refusal evaluation was performed on the synthetic dataset usin
 
 The evaluation dataset is small and synthetic. These results demonstrate the behavior of the prototype under controlled conditions; they should not be interpreted as production performance or generalization to real insurance documents.
 
-**Test suite:** 131 tests covering SQLite and PostgreSQL configurations.
+**Test suite:** 132 tests covering SQLite and PostgreSQL configurations.
+
+### Key evaluation metrics
+
+| Area | Metric | Result |
+|---|---|---:|
+| RAG quality (RAGAS, 16 answers, judge gpt-oss-120b) | Faithfulness / Context recall | 1.00 / 1.00 |
+| OCR on clean scans, PNG and JPEG | Character error rate / field accuracy | 0.4-1.5 % / 99-100 % |
+| OCR on tilted pages (3° rotation, phone-photo simulation) | Character error rate / field accuracy | 26 % / ~59 % |
+| Agent safety | Correct refusals / false refusals / prompt injection resisted | 12/12 / 0/43 / 2/2 |
+
+The tilted-page result is the main known weakness: the line-grouping step in `src/ingestion/ocr.py` breaks on rotated pages, and a deskew step before OCR brought the error rate back to 0.5 % in a test. Full protocol, per-format tables, real-document tests and caveats (small synthetic set): [docs/evaluation-results.md](docs/evaluation-results.md).
 
 ## Current Limitations
 
