@@ -1,106 +1,226 @@
-# InsurFlow
+# InsurFlow — Intelligent Insurance Document Assistant
 
-![Chat](docs/screenshots/03-chat.png)
+<p align="center">
+  <img src="docs/screenshots/03-chat.png" alt="InsurFlow Chat Interface" width="100%" />
+</p>
 
-| Documents | Sign in |
+<p align="center">
+  **A local-first assistant for insurance documents, combining OCR, structured data extraction, hybrid search and grounded question answering.**
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-blue?logo=python" alt="Python" />
+  <img src="https://img.shields.io/badge/Flask-Web%20App-black?logo=flask" alt="Flask" />
+  <img src="https://img.shields.io/badge/PostgreSQL-pgvector-4169E1?logo=postgresql" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Tests-131%20passing-brightgreen" alt="Tests" />
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT License" />
+</p>
+
+---
+
+## Overview
+
+InsurFlow is a portfolio prototype designed to simplify the processing and exploration of insurance documents.
+
+Users can upload PDF files, scanned documents or images containing contracts, amendments, claims and invoices. The application extracts relevant information, validates key fields and allows users to ask questions in English or French.
+
+Answers are grounded exclusively in the user's documents and include supporting passages and page references. When the available documents do not contain sufficient evidence, InsurFlow refuses to provide an unsupported answer.
+
+**Key capabilities**
+- PDF and image ingestion with OCR.
+- Extraction of policy numbers, dates, amounts and guarantees.
+- Validation and cross-document consistency checks.
+- Hybrid retrieval combining keyword and vector search.
+- Source-grounded question answering.
+- Short-term conversation context and per-user long-term memory.
+
+> **Project scope:** This is a portfolio prototype evaluated on synthetic insurance documents. It is not intended for processing real customer data or production insurance workflows.
+
+## Application Preview
+
+| Sign in | Document Management |
+|:---:|:---:|
+| ![Sign in](docs/screenshots/01-sign-in.png) | ![Documents](docs/screenshots/02-documents.png) |
+
+**Question Answering**
+
+![Chat interface](docs/screenshots/03-chat.png)
+
+## Technology Stack
+
+| Layer | Technologies |
 |---|---|
-| ![Documents](docs/screenshots/02-documents.png) | ![Sign in](docs/screenshots/01-sign-in.png) |
+| Language & Web | Python 3.11+, Flask, Waitress, HTML, CSS, JavaScript |
+| Database | PostgreSQL 15, pgvector, SQLAlchemy, SQLite fallback |
+| OCR & PDF | PyMuPDF, RapidOCR |
+| Information Extraction | Regex-based extraction, bilingual document layouts, optional LLM fallback |
+| Search & Retrieval | PostgreSQL Full-Text Search, pgvector HNSW, FastEmbed, all-MiniLM-L6-v2 |
+| LLM Integration | Groq (openai/gpt-oss-20b), Gemini — optional external APIs |
+| Memory | Conversation trimming, rolling summaries, per-user semantic memory |
+| Testing & Quality | pytest, Ruff |
 
-## Purpose
+## Architecture & Workflow
 
-InsurFlow is a small assistant for insurance documents. You import PDFs, scans or photos (contracts, amendments, claims,
-invoices); it reads them with OCR, extracts the key values (policy number, dates, amounts, guarantees), checks them against
-each other, and lets you ask questions in English or French. Answers come **only from your documents**, with the source
-passage and page; when the documents do not contain the answer, it says so.
+InsurFlow follows three main processing stages:
 
-It is a portfolio prototype built on synthetic documents, with free and local tools.
+### 1. Document Ingestion
+- File validation and duplicate detection.
+- Digital text extraction or page-level OCR.
+- Document classification.
+- Key information extraction and validation.
+- Text chunking and embedding generation.
 
-## Technologies
+### 2. Retrieval & Question Answering
+- Hybrid retrieval using keyword and vector search.
+- Retrieval restricted to the authenticated user's documents.
+- Programmatic evidence sufficiency checks.
+- Grounded answer generation with source passages and page references.
+- Refusal when supporting evidence is insufficient.
 
-| Layer | Tools |
-|---|---|
-| Language / web | Python 3.11+, Flask, waitress, plain HTML/CSS/JS |
-| Database | PostgreSQL 15 + pgvector (Docker), SQLAlchemy, SQLite fallback |
-| OCR / PDF | PyMuPDF (digital PDFs), RapidOCR (scans, images) |
-| Extraction | Rule-based (regex), English and French layouts; optional grounded LLM fallback |
-| Search | PostgreSQL full-text + pgvector HNSW, fastembed `all-MiniLM-L6-v2` embeddings, score fusion |
-| LLM (optional, free tiers) | Groq `openai/gpt-oss-20b` or Gemini; without a key, answers quote the documents |
-| Memory | Short-term (trimming + rolling summary) and long-term (per-user semantic store) |
-| Tests | pytest (131 tests, SQLite and PostgreSQL), ruff |
+### 3. Conversation Memory
+- Recent conversation turns and rolling summaries.
+- Per-user semantic memory for persistent context.
+- Memory management through the account interface.
 
-## Run the project
+**Important:** Conversation memory provides context only. It is never treated as evidence for document-based answers.
 
-Requirements: Python 3.11+, Git and Docker.
+For implementation details, see:
+- [System Architecture](docs/architecture.md)
+- [Security Design](docs/security.md)
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.11+
+- Git
+- Docker and Docker Compose (recommended for PostgreSQL)
+
+### Installation
 
 ```bash
-git clone <repository-url>
-cd insurance-document-rag
+git clone https://github.com/khadijaerraja/InsurFlow_ocr.git
+cd InsurFlow_ocr
+
 pip install -r requirements.txt
+```
+
+Create your environment file:
+
+```bash
 cp .env.example .env
 ```
 
-Edit `.env`: set `POSTGRES_PASSWORD` and `SECRET_KEY` (generate one with
-`python -c "import secrets; print(secrets.token_hex(32))"`). If port 5432 is taken, change `POSTGRES_PORT`.
-Optionally add `GROQ_API_KEY` or `GEMINI_API_KEY`.
+Configure `.env`:
+
+- Set `POSTGRES_PASSWORD` for PostgreSQL.
+- Set `SECRET_KEY` using:
+
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+- Change `POSTGRES_PORT` if port `5432` is already in use.
+- Optionally configure `GROQ_API_KEY` or `GEMINI_API_KEY` for external LLM integration.
+
+### Start the Application
+
+Start PostgreSQL:
 
 ```bash
 docker compose up -d
+```
+
+Initialize the database and create a user:
+
+```bash
 python -m src.cli init-db
+
 python -m src.cli create-user you@example.com --name "Your Name"
+```
+
+Start the web application:
+
+```bash
 python -m src.web
 ```
 
-Open http://127.0.0.1:8000, sign in, go to **Documents** and click **Load sample documents** (21 synthetic files,
-English and French, 7 scanned; about 40 seconds). Then try:
+Open **http://127.0.0.1:8000**, sign in, navigate to **Documents**, and select **Load sample documents**.
 
-- *What is the expiry date of contract INS-001?* followed by *And its annual ceiling?*
-- *Quelle est la date d'échéance du contrat INS-006 ?*
-- *What is the capital of France?* (answer: not found in your documents)
+The sample dataset contains 21 synthetic documents in English and French, including 7 scanned documents. Initial processing takes approximately 40 seconds.
 
-Without Docker, leave `POSTGRES_PASSWORD` empty: the app falls back to a local SQLite file (same features, no pgvector).
+### Try It Out
 
-Other commands:
+Ask the following questions:
+
+**English**
+- What is the expiry date of contract INS-001?
+- And its annual ceiling?
+- What is the capital of France?
+
+**French**
+- Quelle est la date d'échéance du contrat INS-006 ?
+
+The last question about France should be refused because the answer is not contained in the uploaded documents.
+
+### SQLite Fallback
+
+Docker is optional. When PostgreSQL is not configured, the application can use a local SQLite database.
+
+The SQLite fallback does not provide PostgreSQL-specific pgvector functionality.
+
+### Additional CLI Commands
 
 ```bash
-python -m src.cli load-samples you@example.com          # load the sample documents from the terminal
+# Load sample documents
+python -m src.cli load-samples you@example.com
+
+# Ask a question from the terminal
 python -m src.cli ask you@example.com "What is covered under dental care?"
-python -m src.evaluation --user you@example.com         # retrieval and refusal metrics
-python -m pytest -q                                      # run the tests
+
+# Run retrieval and refusal evaluation
+python -m src.evaluation --user you@example.com
+
+# Run the test suite
+python -m pytest -q
 ```
 
-## How it works
+## Evaluation
 
-1. **Import**: file checks, duplicate detection, text or OCR per page, classification, extraction, validation, embedding.
-2. **Ask**: hybrid search (keywords + vectors) limited to your documents; a check in code decides whether the evidence is
-   sufficient before the language model is called; the answer cites its sources.
-3. **Remember**: the conversation keeps its recent turns and a summary; a per-user store remembers lasting facts. You can
-   list, delete or disable it from the account menu. Memory is context, never evidence.
+The retrieval and refusal evaluation was performed on the synthetic dataset using PostgreSQL and the embedding model.
 
-Details: [architecture](docs/architecture.md) and [security](docs/security.md).
+| Metric | Result |
+|---|---:|
+| Hybrid retrieval hit rate | 100% |
+| Mean Reciprocal Rank (MRR) | 0.98 |
+| Evidence recall | 1.00 |
+| Unanswerable questions correctly refused | 7 / 7 |
 
-Measured on the synthetic set (PostgreSQL, real embedding model): hybrid retrieval hit rate 100 %, MRR 0.98, evidence
-recall 1.0, 7 of 7 unanswerable questions refused. The set is small; these numbers show the system works, not how it
-would perform on real documents.
+The evaluation dataset is small and synthetic. These results demonstrate the behavior of the prototype under controlled conditions; they should not be interpreted as production performance or generalization to real insurance documents.
 
-## Current limits
+**Test suite:** 131 tests covering SQLite and PostgreSQL configurations.
 
-- Synthetic documents only; extraction rules are written for these layouts.
-- The default embedding model is English: a question in one language about a document in the other works when it names a
-  contract number, but may be refused otherwise (set `EMBEDDING_MODEL` to a multilingual 384-dimension model).
-- No migration tool yet, one ingestion worker, login throttling kept in memory per process.
-- Prompt-injection protection is partial. With an API key, excerpts are sent to the provider: do not import real personal data.
-- When a contract and its amendment disagree (for example the annual ceiling), the answer does not yet say which one is in force.
+## Current Limitations
 
-## Perspectives
+- **Synthetic data:** Extraction rules are designed around the included document layouts.
+- **Language mismatch:** The default embedding model is English-oriented. Cross-language retrieval may be limited unless a contract number or another strong keyword is provided.
+- **Database migrations:** No migration framework is currently integrated.
+- **Ingestion:** Document ingestion uses a single worker.
+- **Authentication:** Login throttling is stored in process memory.
+- **Prompt injection:** Protection is partial. When an external LLM API is enabled, retrieved excerpts are sent to that provider. Do not upload real personal or confidential information.
+- **Amendment conflicts:** The application does not yet resolve which contractual clause takes precedence when an amendment conflicts with the original contract.
 
-- **Roles and permissions (RBAC)**: admin / reviewer / reader, shared libraries per team or organisation.
-- **Stronger security**: password reset and e-mail verification, two-factor sign-in, shared rate limiting (Redis), audit
-  export, encryption of stored files, dependency scanning in CI.
-- **Multi-tenant organisations** with per-tenant isolation and quotas.
-- **Multilingual retrieval** (multilingual embeddings, cross-language evaluation) and Arabic support.
-- **Amendment-aware answers**: resolve which clause is currently in force.
-- **Review workflow**: a screen to correct flagged fields and re-run validation.
-- **More document layouts and real-data evaluation**; layout-aware extraction for tables.
-- **Deployment**: Alembic migrations, job queue for ingestion, Docker image for the app, CI pipeline, monitoring.
+## Future Improvements
 
-License: see [LICENSE](LICENSE).
+- **Multilingual retrieval:** Introduce multilingual embeddings, cross-language evaluation and Arabic support.
+- **Amendment-aware reasoning:** Identify the currently applicable contractual clauses.
+- **Document review:** Add a workflow for correcting extracted fields and rerunning validation.
+- **Advanced extraction:** Support additional document layouts and table-aware extraction.
+- **Security:** Password reset, email verification, two-factor authentication, shared rate limiting and audit exports.
+- **Access control:** Implement role-based permissions and shared team libraries.
+- **Multi-tenancy:** Add organisation-level isolation and resource quotas.
+- **Deployment & Operations:** Integrate Alembic migrations, background ingestion jobs, CI/CD, monitoring and a dedicated application Docker image.
+
+## License
+
+This project is distributed under the [MIT License](LICENSE).
