@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  **A local-first assistant for insurance documents, combining OCR, structured data extraction, hybrid search and grounded question answering.**
+  **A local-first assistant for insurance documents, combining OCR, information extraction, hybrid search and question answering.**
 </p>
 
 <p align="center">
@@ -20,21 +20,19 @@
 
 ## Overview
 
-InsurFlow is a portfolio prototype designed to simplify the processing and exploration of insurance documents.
+InsurFlow processes insurance documents (contracts, amendments, claims and invoices) using OCR and information extraction. Users can upload PDFs or images, retrieve extracted information and ask questions in English or French.
 
-Users can upload PDF files, scanned documents or images containing contracts, amendments, claims and invoices. The application extracts relevant information, validates key fields and allows users to ask questions in English or French.
+Answers include source passages and page references. If the documents do not contain sufficient evidence, the system refuses to answer.
 
-Answers are grounded exclusively in the user's documents and include supporting passages and page references. When the available documents do not contain sufficient evidence, InsurFlow refuses to provide an unsupported answer.
+**Main features**
+- PDF and image processing with OCR.
+- Extraction and validation of policy numbers, dates, amounts and guarantees.
+- Cross-document consistency checks.
+- Hybrid keyword and vector search.
+- Question answering with source references.
+- Conversation history and per-user semantic memory.
 
-**Key capabilities**
-- PDF and image ingestion with OCR.
-- Extraction of policy numbers, dates, amounts and guarantees.
-- Validation and cross-document consistency checks.
-- Hybrid retrieval combining keyword and vector search.
-- Source-grounded question answering.
-- Short-term conversation context and per-user long-term memory.
-
-> **Project scope:** This is a portfolio prototype evaluated on synthetic insurance documents. It is not intended for processing real customer data or production insurance workflows.
+> Portfolio project tested on synthetic documents. Not intended for real customer data or production use.
 
 ## Application Preview
 
@@ -61,8 +59,6 @@ Answers are grounded exclusively in the user's documents and include supporting 
 
 ## Architecture & Workflow
 
-InsurFlow follows three main processing stages:
-
 ### 1. Document Ingestion
 - File validation and duplicate detection.
 - Digital text extraction or page-level OCR.
@@ -74,17 +70,17 @@ InsurFlow follows three main processing stages:
 - Hybrid retrieval using keyword and vector search.
 - Retrieval restricted to the authenticated user's documents.
 - Programmatic evidence sufficiency checks.
-- Grounded answer generation with source passages and page references.
+- Answer generation with source passages and page references.
 - Refusal when supporting evidence is insufficient.
 
 ### 3. Conversation Memory
 - Recent conversation turns and rolling summaries.
-- Per-user semantic memory for persistent context.
+- Per-user semantic memory.
 - Memory management through the account interface.
 
-**Important:** Conversation memory provides context only. It is never treated as evidence for document-based answers.
+Conversation memory provides context only. It is never treated as evidence for document-based answers.
 
-For implementation details, see:
+For implementation details:
 - [System Architecture](docs/architecture.md)
 - [Security Design](docs/security.md)
 
@@ -94,7 +90,7 @@ For implementation details, see:
 
 - Python 3.11+
 - Git
-- Docker and Docker Compose (recommended for PostgreSQL)
+- Docker and Docker Compose (for PostgreSQL)
 
 ### Installation
 
@@ -105,7 +101,7 @@ cd InsurFlow_ocr
 pip install -r requirements.txt
 ```
 
-Create your environment file:
+Create the environment file:
 
 ```bash
 cp .env.example .env
@@ -121,7 +117,7 @@ python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
 - Change `POSTGRES_PORT` if port `5432` is already in use.
-- Optionally configure `GROQ_API_KEY` or `GEMINI_API_KEY` for external LLM integration.
+- Optionally set `GROQ_API_KEY` or `GEMINI_API_KEY` for external LLM integration.
 
 ### Start the Application
 
@@ -135,7 +131,6 @@ Initialize the database and create a user:
 
 ```bash
 python -m src.cli init-db
-
 python -m src.cli create-user you@example.com --name "Your Name"
 ```
 
@@ -145,10 +140,9 @@ Start the web application:
 python -m src.web
 ```
 
-Open **http://127.0.0.1:8000**, sign in, navigate to **Documents**, and select **Load sample documents**.
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000), sign in, go to **Documents**, and select **Load sample documents**.
 
 The sample dataset contains 21 synthetic documents in English and French, including 7 scanned documents. Initial processing takes approximately 40 seconds.
-
 
 ### SQLite Fallback
 
@@ -168,35 +162,57 @@ python -m src.cli ask you@example.com "What is covered under dental care?"
 # Run retrieval and refusal evaluation
 python -m src.evaluation --user you@example.com
 
-# Run the test suite
+# Run tests
 python -m pytest -q
 ```
 
 ## Evaluation
 
-The retrieval and refusal evaluation was performed on the synthetic dataset using PostgreSQL and the embedding model.
+Tests were conducted on synthetic insurance documents using PostgreSQL and the configured embedding model.
+
+### Retrieval & Answer Quality
 
 | Metric | Result |
 |---|---:|
 | Hybrid retrieval hit rate | 100% |
 | Mean Reciprocal Rank (MRR) | 0.98 |
 | Evidence recall | 1.00 |
-| Unanswerable questions correctly refused | 7 / 7 |
+| Correct refusals on unanswerable questions | 7/7 |
 
-The evaluation dataset is small and synthetic. These results demonstrate the behavior of the prototype under controlled conditions; they should not be interpreted as production performance or generalization to real insurance documents.
+### RAG Evaluation
 
-**Test suite:** 132 tests covering SQLite and PostgreSQL configurations.
+RAGAS evaluation on 16 answers, using `gpt-oss-120b` as the evaluation judge.
 
-### Key evaluation metrics
+| Metric | Score |
+|---|---:|
+| Faithfulness | 1.00 |
+| Context Recall | 1.00 |
 
-| Area | Metric | Result |
-|---|---|---:|
-| RAG quality (RAGAS, 16 answers, judge gpt-oss-120b) | Faithfulness / Context recall | 1.00 / 1.00 |
-| OCR on clean scans, PNG and JPEG | Character error rate / field accuracy | 0.4-1.5 % / 99-100 % |
-| OCR on tilted pages (3° rotation, phone-photo simulation) | Character error rate / field accuracy | 26 % / ~59 % |
-| Agent safety | Correct refusals / false refusals / prompt injection resisted | 12/12 / 0/43 / 2/2 |
+### OCR Accuracy
 
-The tilted-page result is the main known weakness: the line-grouping step in `src/ingestion/ocr.py` breaks on rotated pages, and a deskew step before OCR brought the error rate back to 0.5 % in a test. Full protocol, per-format tables, real-document tests and caveats (small synthetic set): [docs/evaluation-results.md](docs/evaluation-results.md).
+| Test condition | Character Error Rate (CER) | Field Accuracy |
+|---|---:|---:|
+| Clean scans (PNG and JPEG) | 0.4–1.5% | 99–100% |
+| Tilted pages (3° rotation) | 26% | ~59% |
+| After deskew (tested case) | 0.5% | — |
+
+The main OCR issue was line grouping on rotated pages. Applying deskew before OCR reduced the character error rate from 26% to 0.5% in the tested case.
+
+### Agent Safety
+
+| Metric | Result |
+|---|---:|
+| Correct refusals | 12/12 |
+| False refusals | 0/43 |
+| Prompt injection attempts resisted | 2/2 |
+
+Prompt injection testing covered only two attempts and does not establish comprehensive protection.
+
+**Automated tests:** 132 passing, covering SQLite and PostgreSQL.
+
+Full protocol, per-format results and evaluation details: [Evaluation Results](docs/evaluation-results.md).
+
+The dataset and test samples are limited and synthetic. These results should not be interpreted as production performance or generalization to real insurance documents.
 
 ## Current Limitations
 
@@ -210,14 +226,14 @@ The tilted-page result is the main known weakness: the line-grouping step in `sr
 
 ## Future Improvements
 
-- **Multilingual retrieval:** Introduce multilingual embeddings, cross-language evaluation and Arabic support.
+- **Multilingual retrieval:** Multilingual embeddings, cross-language evaluation and Arabic support.
 - **Amendment-aware reasoning:** Identify the currently applicable contractual clauses.
-- **Document review:** Add a workflow for correcting extracted fields and rerunning validation.
-- **Advanced extraction:** Support additional document layouts and table-aware extraction.
+- **Document review:** Correct extracted fields and rerun validation.
+- **Advanced extraction:** Support more document layouts and table-aware extraction.
 - **Security:** Password reset, email verification, two-factor authentication, shared rate limiting and audit exports.
-- **Access control:** Implement role-based permissions and shared team libraries.
-- **Multi-tenancy:** Add organisation-level isolation and resource quotas.
-- **Deployment & Operations:** Integrate Alembic migrations, background ingestion jobs, CI/CD, monitoring and a dedicated application Docker image.
+- **Access control:** Role-based permissions and shared team libraries.
+- **Multi-tenancy:** Organisation-level isolation and resource quotas.
+- **Deployment:** Alembic migrations, background ingestion jobs, CI/CD and monitoring.
 
 ## License
 
